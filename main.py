@@ -1,11 +1,14 @@
 from Maze import Maze
+from Path import Path
 import matplotlib.pyplot as plt
 
 def main():
-    m1 = Maze(100)
+    m1 = Maze(20)
+    maze = m1.generate_maze()
 
-
-    display_maze(m1.generate_maze())
+    path_solver = Path(maze)
+    solution = path_solver.solve()
+    display_maze(maze, solution)
 
 def display_maze(maze, path=None):
     fig, ax = plt.subplots(figsize=(10, 10))
