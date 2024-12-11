@@ -104,7 +104,7 @@ discount_factor = 0.9
 epsilon = 1.0
 epsilon_decay = 0.995
 min_epsilon = 0.01
-episodes = 1000
+episodes = 10
 
 # Initialize Pygame
 pygame.init()
@@ -113,6 +113,16 @@ WINDOW_SIZE = SIZE * CELL_SIZE
 screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
 pygame.display.set_caption("Maze Training Visualization")
 clock = pygame.time.Clock()
+
+# Performance tracking variables
+start_time = 0
+episode_times = []
+highest_time = -float('inf')
+lowest_time = float('inf')
+total_time = 0
+step_counts = 0
+error_percentage = []
+total_steps = 0
 
 
 # Draw the maze and agent
@@ -159,6 +169,21 @@ def train_agent():
 
             draw_maze(env, state, episode + 1, step_count)  # Draw the maze with move count
 
+            ###############################
+            # adds print out for ai after each episode
+            episode_time = time.time() - start_time
+            episode_times.append(episode_time)
+            total_time += episode_time
+            print(episode_time)
+            highest_time = max(highest_time, episode_time)
+            lowest_time = min(lowest_time, episode_time)
+            step_counts.append(step_count)
+            total_steps += step_count
+
+
+
+
+
             # Epsilon-greedy action selection
             if random.uniform(0, 1) < epsilon:
                 action_idx = random.randint(0, len(ACTIONS) - 1)
@@ -179,7 +204,17 @@ def train_agent():
         if epsilon > min_epsilon:
             epsilon *= epsilon_decay
 
+    avg_time = total_time / len(episode_times) if episode_times else 0
+    avg_error_percentage = np.mean(error_percentage) if error_percentage else 0
+
     print("Training complete")
+    ###############################
+    # adds print out for ai after each episode
+    print(f"Longest time: {highest_time:.2f}s")
+    print(f"Shortest time: {lowest_time:.2f}s")
+    print(f"Average time: {avg_time:.2f}s")
+    print(f"Average error percentage: {avg_error_percentage:.2f}%")
+
     return Q_table, env
 
 
