@@ -92,7 +92,7 @@ class MazeEnvironment:
 
 # Q-learning agent and training
 ACTIONS = ['up', 'down', 'left', 'right']
-SIZE = 10
+SIZE = 30
 Q_table = np.zeros((SIZE, SIZE, len(ACTIONS)))
 
 learning_rate = 0.1
@@ -104,7 +104,7 @@ episodes = 10
 
 # Initialize Pygame
 pygame.init()
-CELL_SIZE = 20
+CELL_SIZE = 10
 WINDOW_SIZE = SIZE * CELL_SIZE + 200
 screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
 pygame.display.set_caption("Maze Training Visualization")
@@ -133,75 +133,6 @@ def draw_maze(env, agent_pos, episode, move_count):
     screen.blit(img, (10, 10))
 
     pygame.display.flip()
-
-# def train_agent():
-#     # Initialize tracking variables
-#     start_time = time.time()
-#     episode_times = []
-#     highest_time = -float('inf')
-#     lowest_time = float('inf')
-#     total_time = 0
-#     total_steps = 0
-#     step_counts = []
-#     error_percentage = []  # Initialized here
-
-#     maze = create_maze(SIZE)
-#     env = MazeEnvironment(maze)
-#     global epsilon
-
-#     for episode in range(episodes):
-#         state = env.reset()
-#         done = False
-#         step_count = 0  # Count steps per episode
-#         while not done:
-#             x, y = state
-#             for event in pygame.event.get():
-#                 if event.type == pygame.QUIT:
-#                     pygame.quit()
-#                     return
-
-#             draw_maze(env, state, episode + 1, step_count)  # Draw the maze with move count
-
-#             # Timing and performance tracking
-#             episode_time = time.time() - start_time
-#             episode_times.append(episode_time)
-#             total_time += episode_time
-#             highest_time = max(highest_time, episode_time)
-#             lowest_time = min(lowest_time, episode_time)
-#             step_counts.append(step_count)
-#             total_steps += step_count
-
-#             # Epsilon-greedy action selection
-#             if random.uniform(0, 1) < epsilon:
-#                 action_idx = random.randint(0, len(ACTIONS) - 1)
-#             else:
-#                 action_idx = np.argmax(Q_table[x, y])
-
-#             action = ACTIONS[action_idx]
-#             new_state, reward, done = env.step(action)
-#             nx, ny = new_state
-
-#             # Q-value update
-#             best_future_q = np.max(Q_table[nx, ny])
-#             Q_table[x, y, action_idx] += learning_rate * (
-#                         reward + discount_factor * best_future_q - Q_table[x, y, action_idx])
-#             state = new_state
-#             step_count += 1
-
-#         if epsilon > min_epsilon:
-#             epsilon *= epsilon_decay
-
-#     # Calculate averages
-#     avg_time = total_time / len(episode_times) if episode_times else 0
-#     avg_error_percentage = np.mean(error_percentage) if error_percentage else 0
-
-#     print("Training complete")
-#     print(f"Longest time: {highest_time:.2f}s")
-#     print(f"Shortest time: {lowest_time:.2f}s")
-#     print(f"Average time: {avg_time:.2f}s")
-#     print(f"Average error percentage: {avg_error_percentage:.2f}%")
-
-#     return Q_table, env
 
 def train_agent():
     # Initialize tracking variables
