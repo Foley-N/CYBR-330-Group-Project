@@ -108,8 +108,8 @@ episodes = 10
 
 # Initialize Pygame
 pygame.init()
-CELL_SIZE = 40
-WINDOW_SIZE = SIZE * CELL_SIZE
+CELL_SIZE = 20
+WINDOW_SIZE = SIZE * CELL_SIZE + 200
 screen = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
 pygame.display.set_caption("Maze Training Visualization")
 clock = pygame.time.Clock()
@@ -148,7 +148,7 @@ def draw_maze(env, agent_pos, episode, move_count):
     screen.blit(img, (10, 10))
 
     pygame.display.flip()
-    clock.tick(10)  # Control the speed
+    #clock.tick(10)  # Control the speed
 
 
 def train_agent():
